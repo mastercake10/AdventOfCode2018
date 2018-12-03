@@ -1,14 +1,14 @@
 file = open("input", "r")
 
-values = list(map(lambda line: line.replace("\n", ""), file.readlines()))
-frequencies = [0]
+values = map(int, [line.replace("\n", "") for line in file])
+frequencies = set()
 
-def solve():
+def solve(newFreq):
   for freq in values:
-    newFreq = frequencies[-1] + (int(freq[1:]) if freq.startswith("+") else -int(freq[1:]))
+    newFreq += freq
     if newFreq in frequencies:
-      return frequencies[len(values)], newFreq
-    frequencies.append(newFreq)
-  return solve()
+      return newFreq
+    frequencies.add(newFreq)
+  return solve(newFreq)
 
-print("Solutions: ", solve())
+print("part #1: %d part #2: %d" % (sum(values), solve(0)))
